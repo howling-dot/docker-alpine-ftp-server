@@ -4,7 +4,7 @@ RUN apk --no-cache add vsftpd
 COPY start_vsftpd.sh /bin/start_vsftpd.sh
 COPY vsftpd.conf /etc/vsftpd/vsftpd.conf
 
-EXPOSE 21 48600-48697
+EXPOSE 20 21 443 48600-48697
 VOLUME /ftp/ftp
 
 ENTRYPOINT ["/bin/start_vsftpd.sh"]
