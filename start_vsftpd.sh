@@ -51,10 +51,6 @@ if [ ! -z "$ADDRESS" ]; then
   ADDR_OPT="-opasv_address=$ADDRESS"
 fi
 
-# Used to run custom commands inside container
-if [ ! -z "$1" ]; then
-  exec "$@"
-  
 # If TLS flag is set and no certificate exists, generate it
 if [ ! -e /etc/vsftpd/private/vsftpd.pem ]; then
   echo "Generating self-signed certificate"
@@ -69,7 +65,9 @@ if [ ! -e /etc/vsftpd/private/vsftpd.pem ]; then
   chmod 755 /etc/vsftpd/private/vsftpd.pkcs12
 fi
 
-
+# Used to run custom commands inside container
+if [ ! -z "$1" ]; then
+  exec "$@"
 else
   exec /usr/sbin/vsftpd -opasv_min_port=$MIN_PORT -opasv_max_port=$MAX_PORT $ADDR_OPT /etc/vsftpd/vsftpd.conf
 fi
